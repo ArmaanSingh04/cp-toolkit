@@ -6,6 +6,12 @@
 
 using namespace std;
 
+/*
+This function is a advanced implementation of sieve
+the initial vector assignment takes O(n) 
+but the calculation takes O(n log(log(n)))
+*/
+
 vector<bool> sieve(int n){
     // n + 1 coz it will contain the nth index
     vector<bool> primes(n+1 , true); 
@@ -28,7 +34,29 @@ int main(){
     int n;
     cin >> n;
 
-    vector<bool> primes = sieve(n);
+    /*
+    This function is simple to understand and basic concept of sieve
+    This takes O(n) to initially assign the values to 1
+    and then O(n) to calculate the values
+    */
+    auto basicSieve = [](int n) -> vector<bool>{
+        vector<bool> primes(n+1 , 1); 
+
+        primes[0] = false;
+        primes[1] = false;
+
+        for(int i=2 ; i<=n ; i++){
+            if(primes[i] == true){
+                for(int j=2*i ; j<=n ; j += i){
+                    primes[j] = false;
+                }
+            }
+        }
+
+        return primes;
+    };
+
+    vector<bool> primes = basicSieve(n);
     for(int i=1; i<=n ; i++){
         if(primes[i] == true){
             cout << i << " ";
